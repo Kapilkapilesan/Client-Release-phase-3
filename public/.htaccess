@@ -1,0 +1,32 @@
+# Standard Apache config for Next.js Static Export
+ErrorDocument 404 /404.html
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # 1. If someone visits /page/ (with trailing slash), remove it if it's not a real directory
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_URI} (.+)/$
+  RewriteRule ^ %1 [L,R=301]
+
+  # 2. If the request is for /something and /something.html exists, serve it
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI}.html -f
+  RewriteRule ^(.*)$ $1.html [L]
+
+  # 3. If the request is for /something and it doesn't exist, show 404.html
+  # But keep the URL the same (Internal Redirect)
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^ /404.html [L]
+
+</IfModule>
+
+# Caching and optimization
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresDefault "access plus 1 month"
+  ExpiresByType text/html "access plus 0 seconds"
+</IfModule>
