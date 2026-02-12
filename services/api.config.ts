@@ -1,5 +1,5 @@
 import { generateFingerprint, getDeviceToken } from './deviceIdentification';
-export const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://api.bmscapital.lk/api';
+export const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://teste.agroplus.lk/api';
 
 export const getHeaders = () => {
     // Always get the latest token from storage
